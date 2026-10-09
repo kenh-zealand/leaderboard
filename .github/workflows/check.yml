@@ -1,0 +1,36 @@
+name: Kontrol af førsteudkast
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Kontroller Python og JavaScript
+        run: |
+          python -m compileall -q server.py tests
+          node --check static/app.js
+      - name: Serverens integrationstests
+        run: python -m unittest discover -s tests -v
+      - name: Installér browserkontrol
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Kontroller underviser- og studerendeforløb i browser
+        run: python tests/browser_smoke.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-screenshots
+          path: test-results/
+          if-no-files-found: ignore

@@ -1,6 +1,6 @@
 # Administrationsligaen
 
-Første udkast til et dansk leaderboard til undervisning. En lille webapp med Python, SQLite og en responsiv grænseflade uden eksterne runtime-afhængigheder.
+Første udkast til et dansk leaderboard til undervisning. En lille webapp med Python, SQLite og en responsiv grænseflade uden et eksternt webframework. På Windows installeres tidszonedata med nedenstående kommando.
 
 ## Start
 Installer Python 3.12 eller nyere.
@@ -9,6 +9,7 @@ PowerShell:
 ```powershell
 $env:ADMIN_PASSWORD = Read-Host "Vælg en adminadgangskode på mindst 12 tegn"
 $env:BASE_URL = "http://localhost:8000"
+python -m pip install -r requirements.txt
 python server.py
 ```
 
