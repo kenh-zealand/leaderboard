@@ -20,6 +20,11 @@ jobs:
         run: |
           python -m compileall -q server.py tests
           node --check static/app.js
+      - name: Workerens integrationstests og build
+        run: |
+          npm ci
+          npm test
+          npm run build
       - name: Serverens integrationstests
         run: python -m unittest discover -s tests -v
       - name: Installér browserkontrol
@@ -27,6 +32,10 @@ jobs:
           python -m pip install playwright
           python -m playwright install --with-deps chromium
       - name: Kontroller underviser- og studerendeforløb i browser
+        run: python tests/browser_smoke.py
+      - name: Kontroller hosted Worker-variant i browser
+        env:
+          SERVER_VARIANT: worker
         run: python tests/browser_smoke.py
       - uses: actions/upload-artifact@v4
         if: always()

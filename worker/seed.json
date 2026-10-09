@@ -1,0 +1,231 @@
+{
+  "version": 0,
+  "classes": [
+    {
+      "id": "demo-class",
+      "name": "Beta · demohold",
+      "top": 3,
+      "autoReset": false,
+      "week": "2026-W41"
+    }
+  ],
+  "teams": [
+    {
+      "id": "demo-budget",
+      "classId": "demo-class",
+      "name": "Demo · Budget",
+      "score": 78,
+      "components": [
+        32,
+        21,
+        15,
+        10
+      ]
+    },
+    {
+      "id": "demo-process",
+      "classId": "demo-class",
+      "name": "Demo · Proces",
+      "score": 71,
+      "components": [
+        28,
+        20,
+        13,
+        10
+      ]
+    },
+    {
+      "id": "demo-project",
+      "classId": "demo-class",
+      "name": "Demo · Projekt",
+      "score": 65,
+      "components": [
+        25,
+        20,
+        10,
+        10
+      ]
+    }
+  ],
+  "students": [
+    {
+      "id": "demo-A",
+      "classId": "demo-class",
+      "name": "Demostuderende A",
+      "teamId": "demo-budget",
+      "xp": 35,
+      "credits": 10,
+      "badges": [],
+      "awards": [],
+      "levelOverride": "",
+      "active": true
+    },
+    {
+      "id": "demo-B",
+      "classId": "demo-class",
+      "name": "Demostuderende B",
+      "teamId": "demo-budget",
+      "xp": 20,
+      "credits": 10,
+      "badges": [],
+      "awards": [],
+      "levelOverride": "",
+      "active": true
+    },
+    {
+      "id": "demo-C",
+      "classId": "demo-class",
+      "name": "Demostuderende C",
+      "teamId": "demo-process",
+      "xp": 60,
+      "credits": 10,
+      "badges": [],
+      "awards": [],
+      "levelOverride": "",
+      "active": true
+    },
+    {
+      "id": "demo-D",
+      "classId": "demo-class",
+      "name": "Demostuderende D",
+      "teamId": "demo-process",
+      "xp": 15,
+      "credits": 10,
+      "badges": [],
+      "awards": [],
+      "levelOverride": "",
+      "active": true
+    },
+    {
+      "id": "demo-E",
+      "classId": "demo-class",
+      "name": "Demostuderende E",
+      "teamId": "demo-project",
+      "xp": 90,
+      "credits": 10,
+      "badges": [],
+      "awards": [],
+      "levelOverride": "",
+      "active": true
+    },
+    {
+      "id": "demo-F",
+      "classId": "demo-class",
+      "name": "Demostuderende F",
+      "teamId": "demo-project",
+      "xp": 40,
+      "credits": 10,
+      "badges": [],
+      "awards": [],
+      "levelOverride": "",
+      "active": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": "demo-individual",
+      "classId": "demo-class",
+      "week": "2026-W41",
+      "title": "Find budgetfejlen",
+      "description": "Et budget har indtægter på 50.000 kr. og udgifter på 18.000 kr. til løn, 12.000 kr. til lokaler og 5.000 kr. til materialer. Resultatet er angivet til 20.000 kr. Find fejlen og begrund din rettelse.",
+      "criteria": "Beregn det korrekte resultat. Forklar din metode og fejlen. Brug feedback til at forbedre din besvarelse.",
+      "kind": "individual",
+      "open": true
+    },
+    {
+      "id": "demo-team",
+      "classId": "demo-class",
+      "week": "2026-W41",
+      "title": "Forbedr en administrativ arbejdsgang",
+      "description": "En organisation registrerer de samme oplysninger i tre systemer. Udarbejd et kort forslag til en mere effektiv arbejdsgang. Beskriv ansvar, mulige risici og forventet gevinst.",
+      "criteria": "Faglig kvalitet (40), begrundelse og metode (25), forbedring efter feedback (20), samarbejde (15). Niveau 1: væsentlige mangler; 2: delvist opfyldt; 3: korrekt og begrundet; 4: gennemarbejdet med relevante nuancer.",
+      "kind": "team",
+      "open": true
+    }
+  ],
+  "submissions": [],
+  "reviews": [],
+  "redemptions": [],
+  "archives": [],
+  "week": "2026-W41",
+  "levels": [
+    {
+      "id": "e9d6adb4848c152aa9922ede",
+      "name": "Administrationspraktikant",
+      "xp": 0
+    },
+    {
+      "id": "2b455131a1a044d057745468",
+      "name": "Sagskoordinator",
+      "xp": 40
+    },
+    {
+      "id": "c236e31b64fdfc661b24409b",
+      "name": "Administrationskonsulent",
+      "xp": 100
+    },
+    {
+      "id": "0a6b36a29e2784d75475030e",
+      "name": "Projektleder",
+      "xp": 200
+    },
+    {
+      "id": "5702b76cb880a290c532d7d5",
+      "name": "Strategisk r�dgiver",
+      "xp": 350
+    }
+  ],
+  "badges": [
+    {
+      "id": "95bf0e91984af0c2d7c2fc35",
+      "name": "Budgetmester",
+      "criteria": "Godkendt budget med forklarede foruds�tninger.",
+      "xp": 20
+    },
+    {
+      "id": "57dd44cccc30b46ba15c30e2",
+      "name": "Procesforbedrer",
+      "criteria": "Begrundet og realistisk forbedring af en arbejdsgang.",
+      "xp": 20
+    },
+    {
+      "id": "591a8ce954cd34ef178260d8",
+      "name": "Feedback i praksis",
+      "criteria": "Tre dokumenterede forbedringer efter feedback.",
+      "xp": 40
+    }
+  ],
+  "awards": [
+    {
+      "id": "3a5378668d60a6df577dec4d",
+      "name": "Ugens fremgang",
+      "criteria": "Tydelig faglig forbedring, dokumenteret af underviseren."
+    },
+    {
+      "id": "0b05801509323841cc96d412",
+      "name": "Ugens sparringspartner",
+      "criteria": "S�rlig konkret og anvendelig hj�lp til andre."
+    }
+  ],
+  "rewards": [
+    {
+      "id": "f3be8d9d089c0edc8021e75d",
+      "name": "Ekstra hint",
+      "criteria": "Et ekstra hint til en �velsesmission.",
+      "price": 5
+    },
+    {
+      "id": "1de594a64e6705a64565e1d9",
+      "name": "V�lg en alternativ opgave",
+      "criteria": "V�lg blandt underviserens godkendte alternativer.",
+      "price": 5
+    },
+    {
+      "id": "a9124117664fe2ab8c531060",
+      "name": "V�lg casetema",
+      "criteria": "Aftal temaet med underviseren.",
+      "price": 10
+    }
+  ],
+  "audit": []
+}

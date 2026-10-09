@@ -2,6 +2,16 @@
 
 Første udkast til et dansk leaderboard til undervisning. En lille webapp med Python, SQLite og en responsiv grænseflade uden et eksternt webframework. På Windows installeres tidszonedata med nedenstående kommando.
 
+## Privat hosted beta
+Den hostede beta bruger en Cloudflare Worker og D1 til fælles, vedvarende data. Python-versionen er bevaret til lokal brug. Hostingidentitet ligger i `.openai/hosting.json`; adgangskode og offentlig basisadresse håndteres som runtime-konfiguration hos Sites.
+
+Betaen starter med et tydeligt mærket demohold. Demodata er fiktive. Opret et separat undervisningshold til egne afprøvninger. Site-adgangen er privat; personlige elevlinks omgår ikke platformens adgangskontrol. Deling til andre testpersoner kræver en senere ændring af Site-adgangen.
+
+Worker-kontrol: `node --experimental-sqlite --test tests/worker.test.mjs`.
+Build: `npm ci` og `npm run build`. Produktion anvender ikke den eksperimentelle Node-SQLite-adapter; den findes alene til lokal udvikling og tests.
+
+Browseren tilbyder to valgfrie WebMCP-værktøjer til at læse den synlige oversigt og skifte fane. Validering i en understøttet WebMCP-browser var ikke tilgængelig ved første betaudgivelse.
+
 ## Start
 Installer Python 3.12 eller nyere.
 

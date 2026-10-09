@@ -1,0 +1,17 @@
+{
+  "name": "administrationsligaen-beta",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "db:generate": "drizzle-kit generate",
+    "test": "node --experimental-sqlite --test tests/worker.test.mjs",
+    "dev": "node --experimental-sqlite scripts/dev.mjs"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.0",
+    "drizzle-orm": "^0.44.0",
+    "wrangler": "^4.0.0",
+    "esbuild": "^0.25.0"
+  }
+}

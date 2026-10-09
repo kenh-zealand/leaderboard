@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import {build} from 'esbuild';
+await fs.mkdir('dist/server',{recursive:true});
+await fs.mkdir('dist/client',{recursive:true});
+await build({entryPoints:['worker/index.mjs'],outfile:'dist/server/index.js',bundle:true,format:'esm',platform:'browser',target:'es2022'});
+await fs.cp('static','dist/client',{recursive:true});
+await fs.writeFile('dist/server/wrangler.json',JSON.stringify({name:'administrationsligaen-beta',main:'index.js',compatibility_date:'2026-10-01',assets:{directory:'../client',binding:'ASSETS',run_worker_first:true},d1_databases:[{binding:'DB',database_name:'leaderboard-local',database_id:'00000000-0000-0000-0000-000000000001'}]},null,2));
+await fs.mkdir('dist/.openai',{recursive:true});
+await fs.copyFile('.openai/hosting.json','dist/.openai/hosting.json');
+console.log('Worker og grænseflade klar.');

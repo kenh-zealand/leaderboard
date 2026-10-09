@@ -18,7 +18,8 @@ password = "browser-test-admin-123"
 with tempfile.TemporaryDirectory() as folder:
     env = dict(os.environ,ADMIN_PASSWORD=password,BASE_URL=url,PORT=str(port),
                HOST="127.0.0.1",DATA_DIR=folder)
-    process = subprocess.Popen([sys.executable,str(root/"server.py")],env=env,stdout=subprocess.DEVNULL)
+    command = ["node", "--experimental-sqlite", str(root/"scripts/dev.mjs")] if os.environ.get("SERVER_VARIANT") == "worker" else [sys.executable,str(root/"server.py")]
+    process = subprocess.Popen(command,env=env,stdout=subprocess.DEVNULL)
     try:
         for _ in range(100):
             try:
@@ -37,7 +38,11 @@ with tempfile.TemporaryDirectory() as folder:
             page.get_by_role("button",name="Underviserlogin").click()
             page.get_by_label("Adminadgangskode").fill(password)
             page.get_by_role("dialog").get_by_role("button",name="Gem",exact=True).click()
-            page.get_by_role("button",name="Opret første hold").click()
+            if page.get_by_role("button",name="Opret første hold").count():
+                page.get_by_role("button",name="Opret første hold").click()
+            else:
+                page.get_by_role("button",name="Hold & studerende",exact=True).click()
+                page.get_by_role("button",name="Nyt undervisningshold",exact=True).click()
             page.get_by_label("Holdnavn").fill("Testhold")
             page.get_by_role("dialog").get_by_role("button",name="Gem",exact=True).click()
             page.get_by_role("button",name="Hold & studerende",exact=True).click()

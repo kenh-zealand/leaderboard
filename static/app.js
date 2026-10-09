@@ -52,7 +52,7 @@ function render(){
   if(!tabs.some(x=>x[0]===tab))tab='overview';
   const title=tabs.find(x=>x[0]===tab)[1];
   const picker=role!=='student'?'<label for="class-picker">Undervisningshold</label><select id="class-picker">'+(data.classes?.length?options(data.classes,currentClass):'<option>Ingen hold endnu</option>')+'</select>':'<span class="pill green">'+esc(c?.name)+'</span>';
-  $('#app').innerHTML='<div class="shell"><aside class="sidebar"><div class="brand"><div class="mark">◈</div><div><strong>Administrationsligaen</strong><small>Læring i fremdrift</small></div></div>'+picker+'<nav class="nav" aria-label="Navigation">'+tabs.map(([id,label])=>'<button type="button" data-tab="'+id+'" class="'+(tab===id?'active':'')+'" '+(tab===id?'aria-current="page"':'')+'>'+label+'</button>').join('')+'</nav><div class="sidebar-footer"><div>'+esc(role==='admin'?'Underviseradgang':role==='student'?data.student.name:'Fælles scoreboard')+'<br><span>Ugepoint starter på ny. Læring består.</span></div>'+btn(role==='public'?'Underviserlogin':'Log ud',role==='public'?'login':'logout','','','ghost')+'</div></aside><main class="main"><div class="topline"><div><div class="eyebrow">'+esc(role==='student'?'Din udvikling · '+c.name:role==='admin'?'Underviserens arbejdsrum':'Samarbejde · mestring · fremgang')+'</div><h1>'+esc(title)+'</h1></div><div class="actions"><span class="pill">'+esc(c?.week||'Første udkast')+'</span>'+btn('Opdatér','refresh')+'</div></div>'+view()+'<p class="footer-note">Administrationsligaen · Faglige kriterier før point · Første udkast</p></main></div>';
+  $('#app').innerHTML='<div class="shell"><aside class="sidebar"><div class="brand"><div class="mark">◈</div><div><strong>Administrationsligaen</strong><small>Læring i fremdrift</small></div></div>'+picker+'<nav class="nav" aria-label="Navigation">'+tabs.map(([id,label])=>'<button type="button" data-tab="'+id+'" class="'+(tab===id?'active':'')+'" '+(tab===id?'aria-current="page"':'')+'>'+label+'</button>').join('')+'</nav><div class="sidebar-footer"><div>'+esc(role==='admin'?'Underviseradgang':role==='student'?data.student.name:'Fælles scoreboard')+'<br><span>Ugepoint starter på ny. Læring består.</span></div>'+btn(role==='public'?'Underviserlogin':'Log ud',role==='public'?'login':'logout','','','ghost')+'</div></aside><main class="main"><div class="topline"><div><div class="eyebrow">'+esc(role==='student'?'Din udvikling · '+c.name:role==='admin'?'Underviserens arbejdsrum':'Samarbejde · mestring · fremgang')+'</div><h1>'+esc(title)+'</h1></div><div class="actions"><span class="pill">'+esc(c?.week||'Beta')+'</span>'+btn('Opdatér','refresh')+'</div></div>'+view()+'<p class="footer-note">Administrationsligaen · Faglige kriterier før point · Beta</p></main></div>';
 }
 function view(){
   if(identity.role==='public')return '<section class="hero"><div><div class="eyebrow">Hver uge er en ny mulighed</div><h2>Sammen om bedre løsninger</h2><p>Holdene løser faglige missioner og får point for kvalitet, begrundelser, forbedring og samarbejde.</p></div><div class="hero-emblem">◈</div></section>'+(data.classroom?'<section class="card"><div class="sectionhead"><h2>Ugens top '+data.classroom.top+'</h2><span class="pill green">Op til 100 point</span></div>'+scoreboard(data.teams,data.classroom.top)+'</section>'+taskCards(data.tasks,false):empty('Velkommen til Administrationsligaen','Underviseren kan logge ind og oprette det første hold. Studerende åbner deres personlige invitationslink.'));
@@ -249,3 +249,22 @@ async function init(){
   catch(err){$('#app').innerHTML='<main class="loading"><h1>Appen kunne ikke indlæses</h1><p>'+esc(err.message)+'</p>'+btn('Prøv igen','refresh')+'</main>';}
 }
 init();
+
+if(document.modelContext?.registerTool){
+  const lifecycle=new AbortController();
+  const tools=[
+    {name:'read_learning_scoreboard',title:'Læs det aktuelle scoreboard',description:'Læs synlige point og progression for den aktuelle rolle og det valgte undervisningshold.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:true},execute(input){
+      if(!input||Object.keys(input).length)throw new Error('Dette værktøj accepterer ingen felter.');
+      if(!data.version&&data.version!==0)throw new Error('Vent til oversigten er indlæst.');
+      return identity.role==='student'?{role:'student',name:data.student.name,xp:data.student.xp,credits:data.student.credits,level:data.level.name,team:data.team?.name,teamScore:data.team?.score}:
+        {role:identity.role,classroom:classroom()?.name,teams:identity.role==='admin'?classTeams().map(t=>({name:t.name,score:t.score})):(data.teams||[]).map(t=>({name:t.name,score:t.score}))};
+    }},
+    {name:'open_learning_view',title:'Åbn en oversigt',description:'Skift den synlige fane. Denne handling ændrer ikke point eller data.',inputSchema:{type:'object',properties:{view:{type:'string',enum:['overview','people','tasks','reviews','catalog','shop','history']}},required:['view'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute(input){
+      const allowed=identity.role==='admin'?adminTabs:identity.role==='student'?studentTabs:[['overview','Ugens scoreboard']];
+      if(!input||Object.keys(input).some(k=>k!=='view')||!allowed.some(x=>x[0]===input.view))throw new Error('Denne visning er ikke tilgængelig.');
+      tab=input.view;render();return {view:tab,title:allowed.find(x=>x[0]===tab)[1]};
+    }}
+  ];
+  for(const tool of tools)try{Promise.resolve(document.modelContext.registerTool(tool,{signal:lifecycle.signal})).catch(()=>{});}catch{}
+  window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});
+}

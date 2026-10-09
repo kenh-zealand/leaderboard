@@ -5,3 +5,7 @@ __pycache__/
 .venv/
 node_modules/
 test-results/
+dist/
+.wrangler/
+.sites-runtime/
+.dev.vars
