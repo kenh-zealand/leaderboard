@@ -234,6 +234,7 @@ document.addEventListener('submit',async e=>{
     if(type==='submit'){payload.taskId=id;url='/api/student/action';}
     if(type==='review'){payload.ratings=[0,1,2,3].map(i=>Number(values['r'+i]));url='/api/student/action';}
     await mutate(url,payload);
+    if(type==='class'&&!id){currentClass=data.classes.at(-1)?.id||currentClass;render();}
   }catch(err){const error=f.querySelector('.form-error');error.textContent=err.message;error.hidden=false;}
   finally{submit.disabled=false;}
 });

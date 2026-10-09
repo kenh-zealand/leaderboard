@@ -38,7 +38,7 @@ with tempfile.TemporaryDirectory() as folder:
             page.get_by_role("button",name="Underviserlogin").click()
             page.get_by_label("Adminadgangskode").fill(password)
             page.get_by_role("dialog").get_by_role("button",name="Gem",exact=True).click()
-            if page.get_by_role("button",name="Opret første hold").count():
+            if os.environ.get("SERVER_VARIANT") != "worker":
                 page.get_by_role("button",name="Opret første hold").click()
             else:
                 page.get_by_role("button",name="Hold & studerende",exact=True).click()
