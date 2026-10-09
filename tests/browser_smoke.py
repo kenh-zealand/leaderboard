@@ -66,7 +66,11 @@ with tempfile.TemporaryDirectory() as folder:
             student.goto(link)
             expect(student.get_by_role("heading",name="Mit scoreboard",exact=True)).to_be_visible()
             assert "#invite=" not in student.url
-            assert student.locator("body").evaluate("(el)=>el.scrollWidth <= innerWidth") is True
+            overflow = student.evaluate("""() => [...document.querySelectorAll('body *')]
+              .filter(el => el.getBoundingClientRect().right > innerWidth + 1)
+              .map(el => ({tag:el.tagName,cls:el.className,right:el.getBoundingClientRect().right}))
+              .slice(0,15)""")
+            assert student.locator("body").evaluate("(el)=>el.scrollWidth <= innerWidth") is True, overflow
             student.get_by_role("button",name="Mine missioner",exact=True).click()
             student.get_by_role("button",name="Åbn og aflever",exact=True).click()
             student.get_by_label("Din individuelle besvarelse").fill("Budgettet mangler en udgift på 100 kr.")
